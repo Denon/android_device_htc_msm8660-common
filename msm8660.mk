@@ -136,4 +136,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.bq.gpu_to_cpu_unsupported=1
 
 # call the proprietary setup
-#$(call inherit-product-if-exists, vendor/htc/msm8660-common/msm8660-common-vendor.mk)
+$(call inherit-product-if-exists, vendor/htc/msm8660-common/msm8660-common-vendor.mk)

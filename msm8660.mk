@@ -86,7 +86,8 @@ PRODUCT_PACKAGES += \
 
 # Torch
 PRODUCT_PACKAGES += \
-    Torch
+    Torch \
+    FmRadio
 
 # USB
 PRODUCT_PACKAGES += \

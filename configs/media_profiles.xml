@@ -251,29 +251,29 @@
     <CamcorderProfiles cameraId="1">
 
         <EncoderProfile quality="low" fileFormat="mp4" duration="15">
-            <Video codec="h264"
-                   bitRate="192000"
-                   width="176"
-                   height="144"
-                   frameRate="31" />
+                <Video codec="h264"
+                       bitRate="192000"
+                       width="176"
+                       height="144"
+                       frameRate="31" />
 
-	        <Audio codec="amrnb"
-                   bitRate="12200"
-                   sampleRate="8000"
-                   channels="1" />
+                <Audio codec="amrnb"
+                       bitRate="12200"
+                       sampleRate="8000"
+                       channels="1" />
         </EncoderProfile>
 
         <EncoderProfile quality="high" fileFormat="mp4" duration="15">
                 <Video codec="h264"
-                   bitRate="2000000"
-                   width="640"
-                   height="480"
-                   frameRate="31" />
+                       bitRate="2000000"
+                       width="640"
+                       height="480"
+                       frameRate="31" />
 
                 <Audio codec="aac"
-                   bitRate="156000"
-                   sampleRate="48000"
-                   channels="1" />
+                       bitRate="156000"
+                       sampleRate="48000"
+                       channels="1" />
         </EncoderProfile>
 
         <EncoderProfile quality="qvga" fileFormat="3gp" duration="60">

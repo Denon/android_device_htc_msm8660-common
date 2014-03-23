@@ -44,7 +44,8 @@ PRODUCT_PACKAGES += \
     audio.primary.msm8660 \
     audio.usb.default \
     libaudio-resampler \
-    libaudioutils
+    libaudioutils \
+    audio_policy.conf
 
 # GPS
 PRODUCT_COPY_FILES += \
@@ -55,6 +56,7 @@ PRODUCT_PACKAGES += \
     copybit.msm8660 \
     gralloc.msm8660 \
     hwcomposer.msm8660 \
+    memtrack.msm8660 \
     lights.msm8660 \
     libgenlock \
     libmemalloc \
@@ -108,10 +110,6 @@ PRODUCT_COPY_FILES += \
     device/htc/msm8660-common/configs/media_codecs.xml:system/etc/media_codecs.xml \
     device/htc/msm8660-common/configs/media_profiles.xml:system/etc/media_profiles.xml
 
-# audio policy
-PRODUCT_COPY_FILES += \
-    device/htc/msm8660-common/configs/audio_policy.conf:system/etc/audio_policy.conf
-
 # MSM8660 firmware
 PRODUCT_COPY_FILES += \
     device/htc/msm8660-common/firmware/leia_pfp_470.fw:system/etc/firmware/leia_pfp_470.fw \
@@ -128,12 +126,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     com.qc.hardware=true \
     debug.enabletr=true \
     debug.egl.hw=1 \
-    debug.mdpcomp.maxlayer=0 \
+    debug.mdpcomp.maxlayer=3 \
+    debug.hwc.dynThreshold=1.9 \
+    persist.hwc.mdcomp.enable=true \
     debug.mdpcomp.logs=0 \
     debug.sf.hw=1 \
+    lpa.decode=true \
     dev.pm.dyn_samplingrate=1 \
     ro.opengles.version=131072 \
-    ro.bq.gpu_to_cpu_unsupported=1 \
     debug.egl.recordable.rgba8888=1
 
 # call the proprietary setup

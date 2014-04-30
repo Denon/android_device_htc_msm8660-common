@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+USE_CAMERA_STUB := true
+
 BOARD_VENDOR := htc
 
 TARGET_SPECIFIC_HEADER_PATH := device/htc/msm8660-common/include
@@ -127,6 +129,7 @@ BOARD_SEPOLICY_UNION += \
     init_shell.te \
     keystore.te \
     kickstart.te \
+    netd.te \
     mediaserver.te \
     rild.te \
     surfaceflinger.te \

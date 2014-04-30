@@ -97,40 +97,16 @@ static char *camera_fixup_getparams(int id, const char *settings)
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
 
+    params.set("max-saturation", "10");
+    params.set("max-contrast", "10");
+    params.set("max-sharpness", "10");
+    params.set(android::CameraParameters::KEY_ANTIBANDING, "auto");
+    params.set("scene-detect", "on");
+
 #if !LOG_NDEBUG
     ALOGV("%s: original parameters:", __FUNCTION__);
     params.dump();
 #endif
-
-    /* Face detection */
-    params.set(android::CameraParameters::KEY_MAX_NUM_DETECTED_FACES_HW, "0");
-    params.set(android::CameraParameters::KEY_MAX_NUM_DETECTED_FACES_SW, "0");
-
-    params.set(android::CameraParameters::KEY_PREVIEW_FRAME_RATE, "30");
-    params.set(android::CameraParameters::KEY_AUTO_EXPOSURE_LOCK, "false");
-    params.set(android::CameraParameters::KEY_ANTIBANDING, "auto");
-    params.set(android::CameraParameters::KEY_AUTO_EXPOSURE, "frame-average");
-    params.set(android::CameraParameters::KEY_SCENE_DETECT, "on");
-    params.set(android::CameraParameters::KEY_SKIN_TONE_ENHANCEMENT, "enable");
-    params.set(android::CameraParameters::KEY_FOCAL_LENGTH, "3.49");
-    params.set(android::CameraParameters::KEY_FOCUS_DISTANCES, "1.000000,32.000000,32.000000");
-    params.set(android::CameraParameters::KEY_SCENE_DETECT, "on");
-    params.set(android::CameraParameters::KEY_TOUCH_AF_AEC, "touch-on");
-    params.set(android::CameraParameters::KEY_HORIZONTAL_VIEW_ANGLE, "54.4");
-    params.set(android::CameraParameters::KEY_VERTICAL_VIEW_ANGLE, "42.2");
-
-    // Some QCOM related framework changes expect max-saturation, max-contrast
-    // and max-sharpness or the Camera app will crash.
-    const char* value;
-    if((value = params.get("saturation-max"))) {
-        params.set("max-saturation", value);
-    }
-    if((value = params.get("contrast-max"))) {
-        params.set("max-contrast", value);
-    }
-    if((value = params.get("sharpness-max"))) {
-        params.set("max-sharpness", value);
-    }
 
 #if !LOG_NDEBUG
     ALOGV("%s: fixed parameters:", __FUNCTION__);
@@ -145,7 +121,6 @@ static char *camera_fixup_getparams(int id, const char *settings)
 
 static char *camera_fixup_setparams(int id, const char *settings)
 {
-    bool isVideo = false;
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
 
@@ -154,31 +129,13 @@ static char *camera_fixup_setparams(int id, const char *settings)
     params.dump();
 #endif
 
-    /* Face detection */
-    params.set(android::CameraParameters::KEY_MAX_NUM_DETECTED_FACES_HW, "0");
-    params.set(android::CameraParameters::KEY_MAX_NUM_DETECTED_FACES_SW, "0");
+    bool isVideo = !strcmp(params.get(android::CameraParameters::KEY_RECORDING_HINT), "true");
 
-    params.set(android::CameraParameters::KEY_PREVIEW_FRAME_RATE, "30");
-    params.set(android::CameraParameters::KEY_AUTO_EXPOSURE_LOCK, "false");
-    params.set(android::CameraParameters::KEY_ANTIBANDING, "auto");
-    params.set(android::CameraParameters::KEY_AUTO_EXPOSURE, "frame-average");
-    params.set(android::CameraParameters::KEY_SCENE_DETECT, "on");
-    params.set(android::CameraParameters::KEY_SKIN_TONE_ENHANCEMENT, "enable");
-    params.set(android::CameraParameters::KEY_FOCAL_LENGTH, "3.49");
-    params.set(android::CameraParameters::KEY_FOCUS_DISTANCES, "1.000000,32.000000,32.000000");
-    params.set(android::CameraParameters::KEY_SCENE_DETECT, "on");
-    params.set(android::CameraParameters::KEY_TOUCH_AF_AEC, "touch-on");
-    params.set(android::CameraParameters::KEY_HORIZONTAL_VIEW_ANGLE, "54.4");
-    params.set(android::CameraParameters::KEY_VERTICAL_VIEW_ANGLE, "42.2");
-
-    // Enable video mode for our HTC camera
-    //   old overlay: needsHtcCamMode
-    //   reference: http://review.cyanogenmod.org/#/c/53595
-    if (params.get(android::CameraParameters::KEY_RECORDING_HINT)) {
-         isVideo = !strcmp(params.get(android::CameraParameters::KEY_RECORDING_HINT), "true");
+    if (isVideo) {
+        params.set(android::CameraParameters::KEY_ROTATION, "0");
+        params.set(android::CameraParameters::KEY_ANTIBANDING, "auto");
+        params.set("scene-detect", "on");
     }
-
-    params.set("cam-mode", isVideo ? "1" : "0");
 
 #if !LOG_NDEBUG
     ALOGV("%s: fixed parameters:", __FUNCTION__);
